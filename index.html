@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIForAll — The world is changing. Rise with it.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1814;
+    --ink-soft: #4a4740;
+    --ink-muted: #8a8780;
+    --paper: #faf9f6;
+    --paper-warm: #f3f0e8;
+    --paper-card: #ffffff;
+    --amber: #c47b1a;
+    --amber-light: #f5e6c8;
+    --amber-dark: #8a5410;
+    --teal: #1a6b5a;
+    --teal-light: #e0f0eb;
+    --purple: #4a3d8f;
+    --purple-light: #eeecfc;
+    --coral: #c4472a;
+    --coral-light: #faeae6;
+    --green: #3a6b1a;
+    --green-light: #e8f0e0;
+    --border: rgba(26,24,20,0.12);
+    --border-strong: rgba(26,24,20,0.22);
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,249,246,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2rem;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-logo span {
+    color: var(--amber);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--ink); }
+
+  .nav-cta {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 18px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .nav-cta:hover { background: var(--amber-dark); transform: translateY(-1px); }
+
+  /* HERO */
+  .hero {
+    min-height: calc(100vh - 60px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem 4rem;
+    align-items: center;
+    position: relative;
+  }
+
+  .hero-left { padding-right: 4rem; }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    background: var(--amber-light);
+    color: var(--amber-dark);
+    border-radius: 20px;
+    margin-bottom: 1.75rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.1s;
+  }
+
+  .hero-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 58px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  .hero-h1 em {
+    font-style: italic;
+    color: var(--amber);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin-bottom: 2rem;
+    font-weight: 300;
+    max-width: 480px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.3s;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 24px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover { background: var(--amber-dark); transform: translateY(-2px); }
+
+  .btn-primary .arrow {
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+
+  .btn-primary:hover .arrow { transform: translateX(4px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 12px 24px;
+    background: transparent;
+    color: var(--ink);
+    border-radius: var(--radius);
+    text-decoration: none;
+    border: 1px solid var(--border-strong);
+    transition: background 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover { background: var(--paper-warm); border-color: var(--ink); }
+
+  .hero-proof {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.5s;
+    padding-top: 1.5rem;
+    border-top: 0.5px solid var(--border);
+  }
+
+  .proof-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #2e8b57;
+    flex-shrink: 0;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.85); }
+  }
+
+  /* HERO RIGHT — animated visual */
+  .hero-right {
+    position: relative;
+    height: 480px;
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards 0.5s;
+  }
+
+  .floating-card {
+    position: absolute;
+    background: var(--paper-card);
+    border: 0.5px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    font-size: 13px;
+  }
+
+  .fc-1 {
+    top: 20px; left: 0;
+    width: 210px;
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .fc-2 {
+    top: 80px; right: 0;
+    width: 220px;
+    animation: float 5s ease-in-out infinite 1.2s;
+  }
+
+  .fc-3 {
+    top: 230px; left: 20px;
+    width: 230px;
+    animation: float 5s ease-in-out infinite 0.6s;
+  }
+
+  .fc-4 {
+    top: 290px; right: 10px;
+    width: 215px;
+    animation: float 5s ease-in-out infinite 1.8s;
+  }
+
+  .fc-5 {
+    bottom: 10px; left: 80px;
+    width: 240px;
+    animation: float 5s ease-in-out infinite 2.4s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .fc-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  .fc-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .fc-body {
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  .fc-progress {
+    margin-top: 10px;
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .fc-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    animation: fillBar 2s ease forwards 1.5s;
+    width: 0%;
+  }
+
+  @keyframes fillBar {
+    to { width: var(--fill-w); }
+  }
+
+  /* DIVIDER LINE */
+  .section-divider {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    border-top: 0.5px solid var(--border);
+  }
+
+  /* WHO IT'S FOR */
+  .who-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+  }
+
+  .section-h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 540px;
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .who-card {
+    padding: 24px;
+    background: var(--paper-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: default;
+  }
+
+  .who-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+  }
+
+  .who-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    font-size: 18px;
+  }
+
+  .who-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .who-body {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.6;
+  }
+
+  /* MODULES */
+  .modules-section {
+    background: var(--ink);
+    padding: 6rem 2rem;
+  }
+
+  .modules-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .modules-inner .section-eyebrow { color: rgba(255,255,255,0.4); }
+  .modules-inner .section-h2 { color: var(--paper); }
+  .modules-inner .section-sub { color: rgba(255,255,255,0.55); }
+
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+  }
+
+  .module-card {
+    padding: 24px;
+    border: 0.5px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-lg);
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .module-card:hover {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.25);
+    transform: translateY(-4px);
+  }
+
+  .module-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .module-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--paper);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .module-body {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .module-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+
+  /* STORY SECTION */
+  .story-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .story-quote {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+    position: relative;
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--amber);
+  }
+
+  .story-body {
+    font-size: 15px;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .story-sig {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  .story-sig strong {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  .story-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .stat-card {
+    padding: 24px;
+    background: var(--paper-warm);
+    border-radius: var(--radius-lg);
+    border: 0.5px solid var(--border);
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  /* CTA BANNER */
+  .cta-banner {
+    background: var(--amber-light);
+    border-top: 0.5px solid rgba(196,123,26,0.2);
+    border-bottom: 0.5px solid rgba(196,123,26,0.2);
+    padding: 5rem 2rem;
+    text-align: center;
+  }
+
+  .cta-banner .section-h2 { margin-bottom: 1rem; }
+  .cta-banner .section-sub {
+    margin: 0 auto 2.5rem;
+    color: var(--ink-soft);
+  }
+
+  .cta-banner-btns {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    padding: 3rem 2rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--paper);
+    text-decoration: none;
+  }
+
+  .footer-logo span { color: var(--amber); }
+
+  .footer-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: rgba(255,255,255,0.8); }
+
+  .footer-copy {
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 0.5px solid rgba(255,255,255,0.08);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 3rem 1.5rem; min-height: auto; gap: 3rem; }
+    .hero-left { padding-right: 0; }
+    .hero-right { height: 320px; }
+    .story-section { grid-template-columns: 1fr; gap: 3rem; }
+    .nav-links { display: none; }
+    .fc-2, .fc-4 { display: none; }
+    .fc-1 { top: 10px; left: 10px; }
+    .fc-3 { top: 140px; left: 10px; }
+    .fc-5 { bottom: 10px; left: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">AI<span>For</span>All</a>
+  <ul class="nav-links">
+    <li><a href="#modules">Modules</a></li>
+    <li><a href="#story">Our story</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#start" class="nav-cta">Start free →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <span class="hero-eyebrow">Your AI journey starts today</span>
+    <h1 class="hero-h1">The world is changing.<br><em>Rise</em> with it.</h1>
+    <p class="hero-sub">AI is reshaping how we work, learn and live. AIForAll gives every person — regardless of age, background or skill level — the knowledge, tools and confidence to not just keep up, but get ahead.</p>
+    <div class="hero-ctas">
+      <a href="#start" class="btn-primary">Get started free <span class="arrow">→</span></a>
+      <a href="#modules" class="btn-secondary">Browse modules</a>
+    </div>
+    <div class="hero-proof">
+      <span class="proof-dot"></span>
+      <span>From basics to advanced AI &nbsp;·&nbsp; Career &amp; everyday life &nbsp;·&nbsp; Always 100% free</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="floating-card fc-1">
+      <span class="fc-tag" style="background:#FAEEDA;color:#633806;">Module 1</span>
+      <div class="fc-title">Purpose of AI</div>
+      <div class="fc-body">What AI is and why it matters for your life</div>
+      <div class="fc-progress">
+        <div class="fc-progress-fill" style="background:#c47b1a;--fill-w:78%;"></div>
+      </div>
+    </div>
+
+    <div class="floating-card fc-2">
+      <span class="fc-tag" style="background:#E1F5EE;color:#085041;">Module 2</span>
+      <div class="fc-title">Basics of AI</div>
+      <div class="fc-body">Key concepts, zero jargon, easy to follow</div>
+      <div class="fc-progress">
+        <div class="fc-progress-fill" style="background:#1D9E75;--fill-w:55%;"></div>
+      </div>
+    </div>
+
+    <div class="floating-card fc-3">
+      <span class="fc-tag" style="background:#EEEDFE;color:#3C3489;">Module 4</span>
+      <div class="fc-title">AI at work</div>
+      <div class="fc-body">Agents, APIs &amp; automation for professionals</div>
+      <div class="fc-progress">
+        <div class="fc-progress-fill" style="background:#534AB7;--fill-w:35%;"></div>
+      </div>
+    </div>
+
+    <div class="floating-card fc-4">
+      <span class="fc-tag" style="background:#EAF3DE;color:#27500A;">Free</span>
+      <div class="fc-title">CCA certification guide</div>
+      <div class="fc-body">Everything you need to pass your exam</div>
+    </div>
+
+    <div class="floating-card fc-5">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:32px;height:32px;border-radius:50%;background:#FAEEDA;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;color:#633806;flex-shrink:0;">C</div>
+        <div>
+          <div class="fc-title" style="margin-bottom:2px;">Chandra M.</div>
+          <div class="fc-body">"Completed Claude 101 on Day 1 ✓"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- WHO IT'S FOR -->
+<section class="who-section" id="start">
+  <div class="reveal">
+    <p class="section-eyebrow">Who is this for?</p>
+    <h2 class="section-h2">AI is for every person.<br>No exceptions.</h2>
+    <p class="section-sub">You don't need a computer science degree, a tech job or even a plan. You just need curiosity and a starting point. This is it.</p>
+  </div>
+
+  <div class="who-grid reveal">
+    <div class="who-card">
+      <div class="who-icon" style="background:#FAEEDA;">🎓</div>
+      <div class="who-title">Students & kids</div>
+      <div class="who-body">Fun, safe and age-appropriate — even a 10-year-old can explore and learn</div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon" style="background:#E1F5EE;">💼</div>
+      <div class="who-title">Career changers</div>
+      <div class="who-body">Pivoting into AI or adding AI skills to your existing career path</div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon" style="background:#EEEDFE;">⌨️</div>
+      <div class="who-title">Developers</div>
+      <div class="who-body">20 years of .NET? Great. Now add agents, MCP and AI APIs to your toolkit</div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon" style="background:#EAF3DE;">🌱</div>
+      <div class="who-title">Complete beginners</div>
+      <div class="who-body">Never touched AI? Perfect. We start from zero, together, at your pace</div>
+    </div>
+    <div class="who-card">
+      <div class="who-icon" style="background:#FAECE7;">🏠</div>
+      <div class="who-title">Everyday people</div>
+      <div class="who-body">Use AI to simplify your home, finances, health, hobbies and daily routines</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODULES -->
+<section class="modules-section" id="modules">
+  <div class="modules-inner">
+    <div class="reveal">
+      <p class="section-eyebrow">5 core modules</p>
+      <h2 class="section-h2">Everything you need.<br>Nothing you don't.</h2>
+      <p class="section-sub">Each module builds on the last — start anywhere, go at your own speed, return anytime.</p>
+    </div>
+
+    <div class="modules-grid reveal">
+      <a href="#" class="module-card">
+        <span class="module-num">01 — Purpose</span>
+        <div class="module-title">Purpose of AI</div>
+        <div class="module-body">What AI is, why it matters, and how it's already changing your world</div>
+        <span class="module-tag" style="background:#FAEEDA;color:#633806;">Beginner friendly</span>
+      </a>
+      <a href="#" class="module-card">
+        <span class="module-num">02 — Basics</span>
+        <div class="module-title">Basics of AI</div>
+        <div class="module-body">Key concepts, terminology and how AI models actually work — jargon-free</div>
+        <span class="module-tag" style="background:#E1F5EE;color:#085041;">Foundation</span>
+      </a>
+      <a href="#" class="module-card">
+        <span class="module-num">03 — Daily life</span>
+        <div class="module-title">AI day-to-day</div>
+        <div class="module-body">Practical tools and habits to bring AI into your everyday routines</div>
+        <span class="module-tag" style="background:#EAF3DE;color:#27500A;">Practical</span>
+      </a>
+      <a href="#" class="module-card">
+        <span class="module-num">04 — Advanced</span>
+        <div class="module-title">Advanced AI at work</div>
+        <div class="module-body">Agents, MCP, APIs, job search automation and trading automation</div>
+        <span class="module-tag" style="background:#EEEDFE;color:#3C3489;">Professional</span>
+      </a>
+      <a href="#" class="module-card">
+        <span class="module-num">05 — Growth</span>
+        <div class="module-title">Courses, certs & jobs</div>
+        <div class="module-body">Curated free courses, certifications, roadmaps and AI job boards</div>
+        <span class="module-tag" style="background:#FAECE7;color:#712B13;">Career</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<section class="story-section" id="story">
+  <div class="reveal">
+    <p class="story-quote">"I lost my job after 20 years as a developer. AI helped me find my way back — and I built this so you don't have to figure it out alone."</p>
+    <p class="story-body">A year ago, I was overwhelmed by conflicting social media posts, expensive courses and confusing jargon. I couldn't find one clear, honest place to start. So after completing my own AI learning journey, I built AIForAll — the guide I wish I'd had.</p>
+    <p class="story-body">Everything here is free. Everything here is real. And it works for absolutely everyone — because I've been the confused beginner, and I know what it feels like to finally get it.</p>
+    <p class="story-sig"><strong>Chandra Mothkuri</strong> — Founder, AIForAll &nbsp;·&nbsp; .NET Developer turned AI Architect</p>
+  </div>
+
+  <div class="story-stats reveal">
+    <div class="stat-card">
+      <div class="stat-num">25+</div>
+      <div class="stat-label">Free guides and resources</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Core learning modules</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">Cost — always free</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Who this is built for</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="reveal">
+    <p class="section-eyebrow" style="color:var(--amber-dark);">Ready to begin?</p>
+    <h2 class="section-h2">Your first step takes<br>less than 60 seconds.</h2>
+    <p class="section-sub">No sign-up required. No credit card. No experience needed. Just start.</p>
+    <div class="cta-banner-btns">
+      <a href="#" class="btn-primary">Get started free →</a>
+      <a href="#modules" class="btn-secondary">Browse all modules</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="#" class="footer-logo">AI<span>For</span>All</a>
+    <ul class="footer-links">
+      <li><a href="#">About</a></li>
+      <li><a href="#">Modules</a></li>
+      <li><a href="#">Courses</a></li>
+      <li><a href="#">Jobs</a></li>
+      <li><a href="#">Newsletter</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <p class="footer-copy">© 2026 AIForAll · Built with care by Chandra Mothkuri · Free forever · No ads · No paywalls</p>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 100);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
